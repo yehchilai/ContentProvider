@@ -44,20 +44,21 @@ public class MainActivity extends ActionBarActivity {
         // Get a Cursor containing all of the rows in the Words table
         Cursor cursor = resolver.query(UserDictionary.Words.CONTENT_URI, null, null, null, null);
 
-        dictTextView.append("This is the Udacity project for training how to use ContentProvider\n"
-        + "The words count in Dictionary is : " + cursor.getCount()
+        dictTextView.setText("This is the Udacity project for training how to use ContentProvider\n"
+        + "The words count in Dictionary is : "
+        + cursor.getCount()
         + "\n");
 
-        int idIndex = cursor.getColumnIndex(Words._ID);
-        int wordIndex = cursor.getColumnIndex(Words.WORD);
-        int frequencyIndex = cursor.getColumnIndex(Words.FREQUENCY);
+        int idColumn = cursor.getColumnIndex(Words._ID);
+        int wordColumn = cursor.getColumnIndex(Words.WORD);
+        int frequencyColumn = cursor.getColumnIndex(Words.FREQUENCY);
 
         try{
             if(cursor.moveToFirst()){
 
-                dictTextView.append(cursor.getInt(idIndex) + " , "
-                        + cursor.getString(wordIndex) + " , "
-                        + cursor.getInt(frequencyIndex) + " \n");
+                dictTextView.append(cursor.getInt(idColumn) + " , "
+                        + cursor.getString(wordColumn) + " , "
+                        + cursor.getInt(frequencyColumn) + " \n");
 
             }else{
                 Log.e("### ", "There is no data in the table");
@@ -65,13 +66,13 @@ public class MainActivity extends ActionBarActivity {
             }
 
             while(cursor.moveToNext()){
-                dictTextView.append(cursor.getInt(idIndex) + " , "
-                        + cursor.getString(wordIndex) + " , "
-                        + cursor.getInt(frequencyIndex) + " \n");
+                dictTextView.append(cursor.getInt(idColumn) + " , "
+                        + cursor.getString(wordColumn) + " , "
+                        + cursor.getInt(frequencyColumn) + " \n");
             }
         }finally {
             cursor.close();
         }
-        
+
     }
 }
