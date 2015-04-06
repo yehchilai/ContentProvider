@@ -20,9 +20,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.UserDictionary;
 import android.provider.UserDictionary.Words;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.widget.TextView;
+import android.widget.ListView;
 
 /**
  * This is the central activity for the Provider Dictionary Example App. The purpose of this app is
@@ -30,13 +30,23 @@ import android.widget.TextView;
  */
 public class MainActivity extends ActionBarActivity {
 
+    private static final String[] COLUMN_TO_BE_BOUND = new String[]{
+        Words.WORD,
+        Words.FREQUENCY
+    };
+
+    private static final int[] LAYOUT_ITEM_TO_FILL = new int[]{
+        android.R.id.text1,
+        android.R.id.text2
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Get the TextView which will be populated with the Dictionary ContentProvider data.
-        TextView dictTextView = (TextView) findViewById(R.id.dictionary_text_view);
+        ListView dictListView = (ListView) findViewById(R.id.dictionary_list_view);
 
         // Get the ContentResolver which will send a message to the ContentProvider
         ContentResolver resolver = getContentResolver();
@@ -44,35 +54,46 @@ public class MainActivity extends ActionBarActivity {
         // Get a Cursor containing all of the rows in the Words table
         Cursor cursor = resolver.query(UserDictionary.Words.CONTENT_URI, null, null, null, null);
 
-        dictTextView.setText("This is the Udacity project for training how to use ContentProvider\n"
-        + "The words count in Dictionary is : "
-        + cursor.getCount()
-        + "\n");
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+                android.R.layout.two_line_list_item,
+                cursor,
+                COLUMN_TO_BE_BOUND,
+                LAYOUT_ITEM_TO_FILL,
+                0);
 
-        int idColumn = cursor.getColumnIndex(Words._ID);
-        int wordColumn = cursor.getColumnIndex(Words.WORD);
-        int frequencyColumn = cursor.getColumnIndex(Words.FREQUENCY);
-
-        try{
-            if(cursor.moveToFirst()){
-
-                dictTextView.append(cursor.getInt(idColumn) + " , "
-                        + cursor.getString(wordColumn) + " , "
-                        + cursor.getInt(frequencyColumn) + " \n");
-
-            }else{
-                Log.e("### ", "There is no data in the table");
-                return;
-            }
-
-            while(cursor.moveToNext()){
-                dictTextView.append(cursor.getInt(idColumn) + " , "
-                        + cursor.getString(wordColumn) + " , "
-                        + cursor.getInt(frequencyColumn) + " \n");
-            }
-        }finally {
-            cursor.close();
-        }
+        dictListView.setAdapter(adapter);
+        /*************
+         * Use TextView
+         * **************/
+//        dictTextView.setText("This is the Udacity project for training how to use ContentProvider\n"
+//                + "The words count in Dictionary is : "
+//                + cursor.getCount()
+//                + "\n");
+//
+//        int idColumn = cursor.getColumnIndex(Words._ID);
+//        int wordColumn = cursor.getColumnIndex(Words.WORD);
+//        int frequencyColumn = cursor.getColumnIndex(Words.FREQUENCY);
+//
+//        try{
+//            if(cursor.moveToFirst()){
+//
+//                dictTextView.append(cursor.getInt(idColumn) + " , "
+//                        + cursor.getString(wordColumn) + " , "
+//                        + cursor.getInt(frequencyColumn) + " \n");
+//
+//            }else{
+//                Log.e("### ", "There is no data in the table");
+//                return;
+//            }
+//
+//            while(cursor.moveToNext()){
+//                dictTextView.append(cursor.getInt(idColumn) + " , "
+//                        + cursor.getString(wordColumn) + " , "
+//                        + cursor.getInt(frequencyColumn) + " \n");
+//            }
+//        }finally {
+//            cursor.close();
+//        }
 
     }
 }
