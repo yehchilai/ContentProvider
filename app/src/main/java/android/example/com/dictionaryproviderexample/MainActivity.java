@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.provider.UserDictionary;
 import android.provider.UserDictionary.Words;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 /**
@@ -42,5 +43,35 @@ public class MainActivity extends ActionBarActivity {
 
         // Get a Cursor containing all of the rows in the Words table
         Cursor cursor = resolver.query(UserDictionary.Words.CONTENT_URI, null, null, null, null);
+
+        dictTextView.append("This is the Udacity project for training how to use ContentProvider\n"
+        + "The words count in Dictionary is : " + cursor.getCount()
+        + "\n");
+
+        int idIndex = cursor.getColumnIndex(Words._ID);
+        int wordIndex = cursor.getColumnIndex(Words.WORD);
+        int frequencyIndex = cursor.getColumnIndex(Words.FREQUENCY);
+
+        try{
+            if(cursor.moveToFirst()){
+
+                dictTextView.append(cursor.getInt(idIndex) + " , "
+                        + cursor.getString(wordIndex) + " , "
+                        + cursor.getInt(frequencyIndex) + " \n");
+
+            }else{
+                Log.e("### ", "There is no data in the table");
+                return;
+            }
+
+            while(cursor.moveToNext()){
+                dictTextView.append(cursor.getInt(idIndex) + " , "
+                        + cursor.getString(wordIndex) + " , "
+                        + cursor.getInt(frequencyIndex) + " \n");
+            }
+        }finally {
+            cursor.close();
+        }
+        
     }
 }
