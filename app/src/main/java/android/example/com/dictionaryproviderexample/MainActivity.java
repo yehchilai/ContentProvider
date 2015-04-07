@@ -22,14 +22,7 @@ import android.provider.UserDictionary;
 import android.provider.UserDictionary.Words;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
-<<<<<<< HEAD
 import android.widget.ListView;
-import android.support.v4.widget.SimpleCursorAdapter;
-||||||| merged common ancestors
-import android.widget.TextView;
-=======
-import android.widget.ListView;
->>>>>>> Setting_up_DictionaryProviderExample
 
 /**
  * This is the central activity for the Provider Dictionary Example App. The purpose of this app is
@@ -37,7 +30,7 @@ import android.widget.ListView;
  */
 public class MainActivity extends ActionBarActivity {
 
-<<<<<<< HEAD
+
     // For the SimpleCursorAdapter to match the UserDictionary columns to layout items.
     private static final String[] COLUMNS_TO_BE_BOUND  = new String[] {
             UserDictionary.Words.WORD,
@@ -49,19 +42,7 @@ public class MainActivity extends ActionBarActivity {
             android.R.id.text2
     };
 
-||||||| merged common ancestors
-=======
-    private static final String[] COLUMN_TO_BE_BOUND = new String[]{
-        Words.WORD,
-        Words.FREQUENCY
-    };
 
-    private static final int[] LAYOUT_ITEM_TO_FILL = new int[]{
-        android.R.id.text1,
-        android.R.id.text2
-    };
-
->>>>>>> Setting_up_DictionaryProviderExample
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
 
         // Get a Cursor containing all of the rows in the Words table.
         Cursor cursor = resolver.query(UserDictionary.Words.CONTENT_URI, null, null, null, null);
-<<<<<<< HEAD
+
 
         // Set the Adapter to fill the standard two_line_list_item layout with data from the Cursor.
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
@@ -87,15 +68,6 @@ public class MainActivity extends ActionBarActivity {
 
         // Attach the adapter to the ListView.
         dictListView.setAdapter(adapter);
-||||||| merged common ancestors
-=======
-
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
-                android.R.layout.two_line_list_item,
-                cursor,
-                COLUMN_TO_BE_BOUND,
-                LAYOUT_ITEM_TO_FILL,
-                0);
 
         dictListView.setAdapter(adapter);
         /*************
@@ -131,6 +103,5 @@ public class MainActivity extends ActionBarActivity {
 //            cursor.close();
 //        }
 
->>>>>>> Setting_up_DictionaryProviderExample
     }
 }
